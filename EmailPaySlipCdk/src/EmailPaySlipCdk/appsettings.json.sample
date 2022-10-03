@@ -1,0 +1,18 @@
+{
+  "EmailIdentities" : [
+    "arn:aws:ses:{Region}:{Account}:identity/payslips@payslips.com",
+    "arn:aws:ses:{Region}:{Account}:identity/payslips.com"
+  ],
+  "FromAddress": {
+    "Name": "Payslip Parser",
+    "Address": "noreply@payslips.com"
+  },
+  "ToAddress": {
+    "Name": "Pay Slip",
+    "Address": "payslips@payslips.com"
+  },
+  "SavePDF": {
+    "Bucket": null,
+    "Key": null
+  }
+}
