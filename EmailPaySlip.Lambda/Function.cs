@@ -33,6 +33,7 @@ var host = Host.CreateDefaultBuilder()
 		});
 		_.AddSingleton<ISavePDF, SavePDF>();
 		_.AddSingleton<ICompleteEmailProcessing, CompleteEmailProcessing>();
+		_.AddSingleton<IEmailProcessor, EmailProcessor>();
 		if (company == "Displayr")
 		{
 			_.AddSingleton<IEmailExtractor,DisplayrEmailExtractor>();

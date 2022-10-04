@@ -1,4 +1,5 @@
 using Amazon.S3;
+using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
 
 namespace EmailPaySlip.Lambda;
@@ -6,12 +7,14 @@ namespace EmailPaySlip.Lambda;
 public class SavePDF : ISavePDF
 {
 	private AmazonS3Client S3Client { get; }
+	public ILogger<SavePDF> Logger { get; }
 	private string? Bucket { get; }
 	private string? Key { get; }
 
-	public SavePDF(AmazonS3Client s3Client, IOptions<SavePdfOptions> options)
+	public SavePDF(AmazonS3Client s3Client, IOptions<SavePdfOptions> options, ILogger<SavePDF> logger)
 	{
 		S3Client = s3Client;
+		Logger = logger;
 		Bucket = options.Value.Bucket;
 		Key = options.Value.Key;
 	}
@@ -25,11 +28,14 @@ public class SavePDF : ISavePDF
 			key += "/";
 		}
 		
+		var pdfKey = key + company + "/" + payPeriodStart.ToString("yyyyMMdd") + ".pdf";
+		Logger.LogDebug("Bucket {Bucket} Key {Key}", Bucket, pdfKey);
+
 		await S3Client.PutObjectAsync(new()
 		{
 			ContentType = "application/pdf",
 			BucketName = Bucket,
-			Key = key + company + "/" + payPeriodStart.ToString("yyyyMMdd") + ".pdf",
+			Key = pdfKey,
 			InputStream = ms,
 		});
 	}

@@ -65,7 +65,7 @@ namespace EmailPaySlipCdk
 				{
 					new PolicyStatement(new PolicyStatementProps
 					{
-						Actions = new[] {"s3:GetObject", "s3:PutObject"},
+						Actions = new[] {"s3:GetObject", "s3:PutObject","s3:DeleteObject","s3:DeleteObjectVersion"},
 						Effect = Effect.ALLOW,
 						Resources = new[] {s3.BucketArn + "/*"}
 					}),

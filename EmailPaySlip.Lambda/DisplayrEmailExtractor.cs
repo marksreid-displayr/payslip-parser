@@ -94,6 +94,7 @@ public class DisplayrEmailExtractor : IEmailExtractor
 				}
 
 				Logger.LogInformation("{PayPeriod} {BaseHourly} {AnnualLeave} ", payPeriod, baseHourly, annualLeave);
+				ms.Seek(0, SeekOrigin.Begin);
 				return new()
 				{
 					Subject = mimeMsg.Subject,
@@ -102,13 +103,11 @@ public class DisplayrEmailExtractor : IEmailExtractor
 					BaseHourly = baseHourly,
 					PayPeriodStart = payPeriod,
 					PayPeriodEnd = payPeriodEnd,
-					Company = "Displayr"
+					Company = "Displayr",
+					PDFData = ms.ToArray()
 				};
-				//await SavePayslip.SavePayslipRecord(payPeriod, payPeriodEnd, baseHourly, annualLeave);
-				//await EmailConfirmation.SendConfirmationEmail(mimeMsg.MessageId, mimeMsg.Subject, payPeriod, baseHourly, annualLeave);
 			}
 		}
-
 		throw new("Could not extract payslip details");
 	}
 }
